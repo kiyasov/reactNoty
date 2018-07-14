@@ -8,7 +8,6 @@ import {
   Divider,
   Container,
   Menu,
-  Header,
   Table
 } from 'semantic-ui-react';
 
@@ -27,10 +26,7 @@ class NotyExample extends Component {
     this.state = {
       activeItem: 'home',
       defaultProps: {
-        maxVisible: 5,
         type: 'alert',
-        title: '',
-        text: '',
         ttl: 4000,
         position: 'topRight',
         animate: {
@@ -190,28 +186,37 @@ class NotyExample extends Component {
           />
 
           <Menu.Menu position="right">
+            <Menu.Item
+              name="defaultProps"
+              active={activeItem === 'defaultProps'}
+              onClick={this.menuCLick}
+            />
             <Menu.Item name="logout" onClick={this.handleItemClick} />
           </Menu.Menu>
         </Menu>
 
-        <Segment padded>
-          {this.showGroup()}
-          <Divider horizontal>or</Divider>
-          <Header as="h2">{`settings = { isCloseButton: false }`}</Header>
-          {this.showGroup({
-            isCloseButton: false
-          })}
-          <Divider horizontal>Or</Divider>
-          {this.showTable()}
-          <Header as="h2">
-            {' '}
-            {`settings = { isCloseButton: false, ttl: 0 }`}
-          </Header>
-          {this.showGroup({
-            isCloseButton: false,
-            ttl: 0
-          })}
-        </Segment>
+        {activeItem === 'defaultProps' ? (
+          <Segment padded>
+            {this.showTable()}
+            {this.showGroup()}
+          </Segment>
+        ) : (
+          <Segment padded>
+            {this.showTable()}
+            {this.showGroup()}
+            <Divider horizontal>or</Divider>
+            {this.showTable({ isCloseButton: false })}
+            {this.showGroup({
+              isCloseButton: false
+            })}
+            <Divider horizontal>Or</Divider>
+            {this.showTable({ isCloseButton: false, ttl: 0 })}
+            {this.showGroup({
+              isCloseButton: false,
+              ttl: 0
+            })}
+          </Segment>
+        )}
       </Container>
     );
   }
