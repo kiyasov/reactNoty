@@ -12,7 +12,12 @@ const positionList = [
   'top',
   'bottom',
   'bottomLeft',
-  'bottomRight'
+  'bottomRight',
+  'topCenter',
+  'center',
+  'centerLeft',
+  'centerRight',
+  'bottomCenter'
 ];
 
 export default class Noty extends Component {

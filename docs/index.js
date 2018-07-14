@@ -1,15 +1,15 @@
 import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
+import _ from 'lodash';
 
 import { notyConnect, NotyProvider } from '../src';
 import {
-  Button,
   Segment,
   Divider,
   Container,
   Menu,
   Table,
-  Icon
+  Header
 } from 'semantic-ui-react';
 
 import '../src/style/animate.css';
@@ -19,13 +19,18 @@ import '../src/style/themes/relax.css';
 import './app.css';
 import 'semantic-ui-css/semantic.min.css';
 
+import Position from './components/notyType/Position';
+import Template from './components/notyType/Template';
+import Theme from './components/notyType/Theme';
+import GroupNoty from './components/notyType/GroupNoty';
+
 @notyConnect
 class NotyExample extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      activeItem: 'home',
+      activeItem: 'installation',
       defaultProps: {
         type: 'alert',
         ttl: 4000,
@@ -51,136 +56,69 @@ class NotyExample extends Component {
     return String(object);
   };
 
-  showTable = (settings = {}) => {
-    const props = {
-      ...this.state.defaultProps,
-      ...settings
-    };
-
-    return (
-      <Table celled fixed padded>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>key</Table.HeaderCell>
-            <Table.HeaderCell>value</Table.HeaderCell>
+  showTable = (settings = {}) => (
+    <Table celled fixed padded>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>key</Table.HeaderCell>
+          <Table.HeaderCell>value</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {Object.keys(settings).map(key => (
+          <Table.Row key={key}>
+            <Fragment>
+              <Table.Cell>{key}</Table.Cell>
+              <Table.Cell>{this.isObject(settings[key])}</Table.Cell>
+            </Fragment>
           </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {Object.keys(props).map(key => (
-            <Table.Row key={key}>
-              <Fragment>
-                <Table.Cell>{key}</Table.Cell>
-                <Table.Cell>{this.isObject(props[key])}</Table.Cell>
-              </Fragment>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
-    );
-  };
+        ))}
+      </Table.Body>
+    </Table>
+  );
 
-  showGroup = (settings = {}) => {
-    const { noty } = this.props;
-
-    return (
-      <Button.Group widths="6">
-        <Button
-          color="green"
-          onClick={() =>
-            noty.show({
-              title: 'Success',
-              text: 'Hello, World!',
-              type: 'success',
-              ...settings
-            })
-          }
-        >
-          Success
-        </Button>
-        <Button
-          color="red"
-          onClick={() =>
-            noty.show({
-              title: 'Error',
-              text: 'Bye Bye, World!',
-              type: 'error',
-              ...settings
-            })
-          }
-        >
-          Error
-        </Button>
-        <Button
-          onClick={() =>
-            noty.show({
-              title: 'Alert',
-              text: 'Hello, World!',
-              type: 'alert',
-              ...settings
-            })
-          }
-        >
-          Alert
-        </Button>
-        <Button
-          color="blue"
-          onClick={() =>
-            noty.show({
-              title: 'Info',
-              text: "I'm tired!",
-              type: 'info',
-              ...settings
-            })
-          }
-        >
-          Info
-        </Button>
-        <Button
-          color="yellow"
-          onClick={() =>
-            noty.show({
-              title: 'Warning',
-              text: 'Thank you for attention!',
-              type: 'warning',
-              ...settings
-            })
-          }
-        >
-          Warning
-        </Button>
-        <Button
-          color="purple"
-          onClick={() =>
-            noty.show({
-              title: 'Custom',
-              text: 'Any class!',
-              type: 'custom',
-              ...settings
-            })
-          }
-        >
-          Custom
-        </Button>
-      </Button.Group>
-    );
-  };
+  showGroup = (settings = {}) => (
+    <Fragment>
+      {_.size(settings) > 0 && this.showTable(settings)}
+      <GroupNoty noty={this.props.noty} settings={settings} />
+    </Fragment>
+  );
 
   render() {
     const {
-      state: { activeItem }
+      state: { activeItem, defaultProps }
     } = this;
 
     return (
       <Container>
         <Menu pointing secondary>
           <Menu.Item
+            name="installation"
+            active={activeItem === 'installation'}
+            onClick={this.menuCLick}
+          />
+
+          <Menu.Item
             name="home"
             active={activeItem === 'home'}
             onClick={this.menuCLick}
           />
+
           <Menu.Item
             name="template"
             active={activeItem === 'template'}
+            onClick={this.menuCLick}
+          />
+
+          <Menu.Item
+            name="position"
+            active={activeItem === 'position'}
+            onClick={this.menuCLick}
+          />
+
+          <Menu.Item
+            name="theme"
+            active={activeItem === 'theme'}
             onClick={this.menuCLick}
           />
 
@@ -198,41 +136,34 @@ class NotyExample extends Component {
           </Menu.Menu>
         </Menu>
 
-        {activeItem === 'defaultProps' ? (
+        {activeItem === 'installation' ? (
           <Segment padded>
-            {this.showTable()}
+            <Container text>
+              <Header as="h2">Install via NPM</Header>
+              <Segment raised>npm install reactNoty</Segment>
+            </Container>
+          </Segment>
+        ) : activeItem === 'defaultProps' ? (
+          <Segment padded>
+            {this.showTable(defaultProps)}
             {this.showGroup()}
           </Segment>
         ) : activeItem === 'template' ? (
-          <Segment padded>
-            {this.showTable({
-              text: 'Hello',
-              template: `{{title}}! </br> {{text}}, {{props.name}} {{props.surname}}`,
-              props: {
-                name: 'Islam',
-                surname: 'Kiyasov'
-              }
-            })}
-            {this.showGroup({
-              text: 'Hello',
-              template: `{{title}}! </br> {{text}}, {{props.name}} {{props.surname}}`,
-              props: {
-                name: 'Islam',
-                surname: 'Kiyasov'
-              }
-            })}
-          </Segment>
+          <Template showGroup={this.showGroup} />
+        ) : activeItem === 'position' ? (
+          <Position showGroup={this.showGroup} />
+        ) : activeItem === 'theme' ? (
+          <Theme showGroup={this.showGroup} />
         ) : (
           <Segment padded>
-            {this.showTable()}
             {this.showGroup()}
             <Divider horizontal>or</Divider>
-            {this.showTable({ isCloseButton: false })}
+
             {this.showGroup({
               isCloseButton: false
             })}
             <Divider horizontal>Or</Divider>
-            {this.showTable({ isCloseButton: false, ttl: 0 })}
+
             {this.showGroup({
               isCloseButton: false,
               ttl: 0
