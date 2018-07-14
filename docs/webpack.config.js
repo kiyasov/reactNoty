@@ -69,7 +69,7 @@ module.exports = {
     })
   ],
   devServer: {
-    contentBase: distPath,
+    contentBase: __dirname,
     port: 5000,
     compress: true,
     open: true

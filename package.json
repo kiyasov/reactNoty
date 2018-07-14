@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "buld": "./node_modules/.bin/babel src --out-dir lib",
-    "devServer": "webpack-dev-server --config example/webpack.config.js --mode development"
+    "devServer": "webpack-dev-server --config docs/webpack.config.js --mode development"
   },
   "repository": {
     "type": "git",
