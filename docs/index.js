@@ -140,7 +140,7 @@ class NotyExample extends Component {
           <Segment padded>
             <Container text>
               <Header as="h2">Install via NPM</Header>
-              <Segment raised>npm install reactNoty</Segment>
+              <Segment raised>npm i @kiyasov/noty</Segment>
             </Container>
           </Segment>
         ) : activeItem === 'defaultProps' ? (
