@@ -141,7 +141,8 @@ export default class NotyContainer extends Component {
       type,
       ttl,
       props,
-      template
+      template,
+      theme
     } = this.props;
 
     const { styleProgressBar, isShow } = this.state;
@@ -153,7 +154,7 @@ export default class NotyContainer extends Component {
         onMouseLeave={this.setInterval}
         className={`animated ${
           isShow ? animate.open : animate.close
-        } noty_bar noty_type__${type} noty_theme__mint noty_has_timeout noty_has_progressbar`}
+        } noty_bar noty_type__${type} noty_theme__${theme} noty_has_timeout noty_has_progressbar`}
       >
         <div onClick={this.onClose} className="noty_body">
           {template ? (

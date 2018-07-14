@@ -1,0 +1,19 @@
+.noty_type__custom {
+  background: #c90db9; /* Old Browsers */
+  background: -webkit-linear-gradient(
+    bottom right,
+    #c90db9,
+    #c7ffe2
+  ); /*Safari 5.1-6*/
+  background: -o-linear-gradient(
+    bottom right,
+    #c90db9,
+    #c7ffe2
+  ); /*Opera 11.1-12*/
+  background: -moz-linear-gradient(
+    bottom right,
+    #c90db9,
+    #c7ffe2
+  ); /*Fx 3.6-15*/
+  background: linear-gradient(bottom right, #c90db9, #c7ffe2); /*Standard*/
+}

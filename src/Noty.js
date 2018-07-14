@@ -6,6 +6,15 @@ import EventEmitter from 'events';
 import NotyContainer from './components/NotyContainer';
 import _ from 'lodash';
 
+const positionList = [
+  'topRight',
+  'topLeft',
+  'top',
+  'bottom',
+  'bottomLeft',
+  'bottomRight'
+];
+
 export default class Noty extends Component {
   constructor(props) {
     super(props);
@@ -64,7 +73,8 @@ export default class Noty extends Component {
     isButton: false,
     isVisibility: true,
     template: false,
-    props: {}
+    props: {},
+    theme: 'relax'
   };
 
   static propTypes = {
@@ -79,7 +89,7 @@ export default class Noty extends Component {
         `Invalid prop ${propName} supplied to ${componentName} Validation failed. \n Minimal ttl 1000`
       ),
     template: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    position: PropTypes.oneOf(['top', 'bottom', 'topRight', 'topLeft']),
+    position: PropTypes.oneOf(positionList),
     animate: PropTypes.shape({
       open: PropTypes.string,
       close: PropTypes.string
@@ -90,7 +100,8 @@ export default class Noty extends Component {
     text: PropTypes.string,
     title: PropTypes.string,
     isVisibility: PropTypes.bool,
-    props: PropTypes.object
+    props: PropTypes.object,
+    theme: PropTypes.string
   };
 
   show = async (settings = {}) => {
@@ -205,18 +216,20 @@ export default class Noty extends Component {
   render() {
     const { notyList } = this.state;
 
-    return (
-      <div className="notyContainer">
-        {notyList.map(noty => (
-          <NotyContainer
-            ref={e => (this.notyRef[noty.id] = e)}
-            key={noty.id}
-            {...noty}
-            onClose={this.onClose}
-            emit={this.emit}
-          />
-        ))}
+    return positionList.map(position => (
+      <div key={position} id={`noty_layout__${position}`}>
+        {_
+          .filter(notyList, ['position', position])
+          .map(noty => (
+            <NotyContainer
+              ref={e => (this.notyRef[noty.id] = e)}
+              key={noty.id}
+              {...noty}
+              onClose={this.onClose}
+              emit={this.emit}
+            />
+          ))}
       </div>
-    );
+    ));
   }
 }
