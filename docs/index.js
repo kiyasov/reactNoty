@@ -8,7 +8,8 @@ import {
   Divider,
   Container,
   Menu,
-  Table
+  Table,
+  Icon
 } from 'semantic-ui-react';
 
 import '../src/style/animate.css';
@@ -35,8 +36,6 @@ class NotyExample extends Component {
         },
         isProgressBar: true,
         isCloseButton: true,
-        isButton: false,
-        isVisibility: true,
         template: false,
         props: {},
         theme: 'relax'
@@ -191,7 +190,11 @@ class NotyExample extends Component {
               active={activeItem === 'defaultProps'}
               onClick={this.menuCLick}
             />
-            <Menu.Item name="logout" onClick={this.handleItemClick} />
+            <Menu.Item name="logout">
+              <a href="https://github.com/kiyasov/reactNoty">
+                <Icon name="github alternate" size="large" />
+              </a>
+            </Menu.Item>
           </Menu.Menu>
         </Menu>
 
@@ -199,6 +202,25 @@ class NotyExample extends Component {
           <Segment padded>
             {this.showTable()}
             {this.showGroup()}
+          </Segment>
+        ) : activeItem === 'template' ? (
+          <Segment padded>
+            {this.showTable({
+              text: 'Hello',
+              template: `{{title}}! </br> {{text}}, {{props.name}} {{props.surname}}`,
+              props: {
+                name: 'Islam',
+                surname: 'Kiyasov'
+              }
+            })}
+            {this.showGroup({
+              text: 'Hello',
+              template: `{{title}}! </br> {{text}}, {{props.name}} {{props.surname}}`,
+              props: {
+                name: 'Islam',
+                surname: 'Kiyasov'
+              }
+            })}
           </Segment>
         ) : (
           <Segment padded>

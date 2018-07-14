@@ -1,6 +1,9 @@
+const path = require('path');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
+
+const distPath = path.join(__dirname, '/public');
 
 module.exports = {
   entry: {
@@ -8,7 +11,7 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js',
-    path: __dirname + '/public'
+    path: distPath
   },
   module: {
     rules: [
@@ -66,7 +69,7 @@ module.exports = {
     })
   ],
   devServer: {
-    contentBase: __dirname,
+    contentBase: distPath,
     port: 5000,
     compress: true,
     open: true
