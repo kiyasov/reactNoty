@@ -190,11 +190,11 @@ class NotyExample extends Component {
               active={activeItem === 'defaultProps'}
               onClick={this.menuCLick}
             />
-            <Menu.Item name="logout">
-              <a href="https://github.com/kiyasov/reactNoty">
-                <Icon name="github alternate" size="large" />
-              </a>
-            </Menu.Item>
+            <Menu.Item
+              href="https://github.com/kiyasov/reactNoty"
+              name="github"
+              icon="github alternate"
+            />
           </Menu.Menu>
         </Menu>
 
