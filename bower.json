@@ -1,0 +1,23 @@
+{
+  "name": "react-noty",
+  "description": "React Noty",
+  "main": "index.js",
+  "authors": ["Islam Kiyasov"],
+  "license": "ISC",
+  "keywords": [
+    "noty",
+    "react",
+    "notification",
+    "alert",
+    "reactJs",
+    "reactJS",
+    "confirm",
+    "confirmation",
+    "success",
+    "error",
+    "warning",
+    "information"
+  ],
+  "homepage": "https://github.com/kiyasov/reactNoty",
+  "ignore": ["**/.*", "node_modules", "bower_components", "test", "tests"]
+}

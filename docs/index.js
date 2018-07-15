@@ -138,9 +138,13 @@ class NotyExample extends Component {
 
         {activeItem === 'installation' ? (
           <Segment padded>
-            <Container text>
+            <Container>
               <Header as="h2">Install via NPM</Header>
-              <Segment raised>npm i @kiyasov/noty</Segment>
+              <Segment raised>npm i @kiyasov/noty --save</Segment>
+            </Container>
+            <Container>
+              <Header as="h2">Install via Bower</Header>
+              <Segment raised>bower install react-noty --save</Segment>
             </Container>
           </Segment>
         ) : activeItem === 'defaultProps' ? (
