@@ -154,7 +154,7 @@ class NotyExample extends Component {
                 <br />
                 <b>{`import ReactDOM from 'react-dom';`}</b>
                 <br />
-                <b> {`import { NotyProvider } from 'react-notie';`}</b>
+                <b> {`import { NotyProvider } from '@kiyasov/noty';`}</b>
                 <br />
                 <br />
                 {`const App = (<NotyProvider><MyApp/></NotyProvider>);`} <br />
@@ -165,7 +165,7 @@ class NotyExample extends Component {
                 {`// MyComponent.js`} <br />
                 <b> {`import React, { Component } from 'react';`}</b> <br />
                 <b>
-                  {`import { notyConnect } from 'react-notie';`}
+                  {`import { notyConnect } from '@kiyasov/noty';`}
                 </b> <br /> <br />
                 {`class MyComponent extends Component {`} <br />
                 <div
