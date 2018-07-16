@@ -1,5 +1,5 @@
 {
-  "name": "@kiyasov/noty",
+  "name": "react-noty",
   "description": "React Noty",
   "main": "index.js",
   "authors": ["Islam Kiyasov"],
