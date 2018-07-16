@@ -11,7 +11,7 @@ export default class Installation extends Component {
           <Segment>npm i @kiyasov/noty --save</Segment>
 
           <Header as="h2">Install via Bower</Header>
-          <Segment>bower i @kiyasov/noty --save</Segment>
+          <Segment>bower i reactNoty --save</Segment>
 
           <Header as="h2">Basic usage</Header>
           <Message>
