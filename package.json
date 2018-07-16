@@ -1,6 +1,6 @@
 {
   "name": "@kiyasov/noty",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React Noty",
   "main": "index.js",
   "scripts": {
