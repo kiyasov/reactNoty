@@ -221,20 +221,24 @@ export default class Noty extends Component {
   render() {
     const { notyList } = this.state;
 
-    return positionList.map(position => (
-      <div key={position} id={`noty_layout__${position}`}>
-        {_
-          .filter(notyList, ['position', position])
-          .map(noty => (
-            <NotyContainer
-              ref={e => (this.notyRef[noty.id] = e)}
-              key={noty.id}
-              {...noty}
-              onClose={this.onClose}
-              emit={this.emit}
-            />
-          ))}
+    return (
+      <div id="notyContainer">
+        {positionList.map(position => (
+          <div key={position} id={`noty_layout__${position}`}>
+            {_
+              .filter(notyList, ['position', position])
+              .map(noty => (
+                <NotyContainer
+                  ref={e => (this.notyRef[noty.id] = e)}
+                  key={noty.id}
+                  {...noty}
+                  onClose={this.onClose}
+                  emit={this.emit}
+                />
+              ))}
+          </div>
+        ))}
       </div>
-    ));
+    );
   }
 }
