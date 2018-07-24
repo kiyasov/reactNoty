@@ -1,7 +1,7 @@
 {
   "name": "@kiyasov/noty",
   "description": "React Noty",
-  "main": "index.js",
+  "main": "lib/index.js",
   "authors": ["Islam Kiyasov"],
   "license": "ISC",
   "keywords": [

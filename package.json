@@ -1,8 +1,8 @@
 {
   "name": "@kiyasov/noty",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "React Noty",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "buld": "./node_modules/.bin/babel src --out-dir lib",
     "devServer": "webpack-dev-server --config docs/webpack.config.js --mode development"
