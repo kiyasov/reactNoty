@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import PropTypes from 'prop-types';
 import EventEmitter from 'events';
@@ -222,23 +222,25 @@ export default class Noty extends Component {
     const { notyList } = this.state;
 
     return (
-      <div id="notyContainer">
-        {positionList.map(position => (
-          <div key={position} id={`noty_layout__${position}`}>
-            {_
-              .filter(notyList, ['position', position])
-              .map(noty => (
-                <NotyContainer
-                  ref={e => (this.notyRef[noty.id] = e)}
-                  key={noty.id}
-                  {...noty}
-                  onClose={this.onClose}
-                  emit={this.emit}
-                />
-              ))}
-          </div>
-        ))}
-      </div>
+      <Fragment>
+        <div id="notyContainer">
+          {positionList.map(position => (
+            <div key={position} id={`noty_layout__${position}`}>
+              {_
+                .filter(notyList, ['position', position])
+                .map(noty => (
+                  <NotyContainer
+                    ref={e => (this.notyRef[noty.id] = e)}
+                    key={noty.id}
+                    {...noty}
+                    onClose={this.onClose}
+                    emit={this.emit}
+                  />
+                ))}
+            </div>
+          ))}
+        </div>
+      </Fragment>
     );
   }
 }
