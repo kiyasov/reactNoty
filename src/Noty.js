@@ -122,7 +122,8 @@ export default class Noty extends Component {
       this.setState({
         isFirst: false
       });
-    }
+    } else
+      await new Promise(resolve => setTimeout(resolve, 100 * notyList.length));
 
     const thisNoty = {
       ...this.props,
