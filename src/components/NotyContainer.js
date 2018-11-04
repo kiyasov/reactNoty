@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react';
-import _ from 'lodash';
-import PropTypes from 'prop-types';
+import React, { Component, Fragment } from "react";
+import _ from "lodash";
+import PropTypes from "prop-types";
 
-import { CSSTransition } from 'react-css-transition';
+import { CSSTransition } from "react-css-transition";
 
 CSSTransition.childContextTypes = {
   // this can be empty
@@ -64,7 +64,7 @@ export default class NotyContainer extends Component {
 
     this.setInterval();
 
-    emit('onShow', id);
+    emit("onShow", id);
   }
 
   componentWillUnmount() {
@@ -101,15 +101,17 @@ export default class NotyContainer extends Component {
 
     const { id, onClose, isButton } = this.props;
 
-    this.setState({
-      isShow: false
-    });
+    const type = _.toInteger(e.currentTarget.getAttribute("data-type"));
 
-    setTimeout(() => {
-      if (!isButton) onClose(id, e && 1);
-      else if (e.target.className.indexOf('noty_close_button') !== -1)
-        onClose(id, 1);
-    }, 500);
+    if (isButton === 1) {
+      this.setState({
+        isShow: false
+      });
+
+      setTimeout(() => {
+        onClose(id, type);
+      }, 500);
+    }
   };
 
   resetTtl = () => {
@@ -120,14 +122,14 @@ export default class NotyContainer extends Component {
         ttl: ttl / 1000,
         styleProgressBar: {
           width: `100%`,
-          transition: 'width 0ms linear'
+          transition: "width 0ms linear"
         }
       });
 
       this.clearInterval();
     }
 
-    emit('onHover', id);
+    emit("onHover", id);
   };
 
   render() {
@@ -156,7 +158,7 @@ export default class NotyContainer extends Component {
           isShow ? animate.open : animate.close
         } noty_bar noty_type__${type} noty_theme__${theme} noty_has_timeout noty_has_progressbar`}
       >
-        <div onClick={this.onClose} className="noty_body">
+        <div onClick={this.onClose} className="noty_body" data-type="1">
           {template ? (
             <div
               dangerouslySetInnerHTML={{
@@ -165,14 +167,14 @@ export default class NotyContainer extends Component {
                   (arr, item) => {
                     if (item.match(/({{[^}]*(?:}[^}]+)*}*}})/g)) {
                       item = eval(
-                        _.trim(item.replace('{{', '').replace('}}', ''))
+                        _.trim(item.replace("{{", "").replace("}}", ""))
                       );
                     }
 
                     arr += item;
                     return arr;
                   },
-                  ''
+                  ""
                 )
               }}
             />
@@ -204,7 +206,11 @@ export default class NotyContainer extends Component {
           />
         ) : null}
         {isCloseButton ? (
-          <div className="noty_close_button" onClick={this.onClose}>
+          <div
+            className="noty_close_button"
+            onClick={this.onClose}
+            data-type="2"
+          >
             ×
           </div>
         ) : null}

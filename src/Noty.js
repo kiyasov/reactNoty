@@ -1,23 +1,23 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment } from "react";
 
-import PropTypes from 'prop-types';
-import EventEmitter from 'events';
+import PropTypes from "prop-types";
+import EventEmitter from "events";
 
-import NotyContainer from './components/NotyContainer';
-import _ from 'lodash';
+import NotyContainer from "./components/NotyContainer";
+import _ from "lodash";
 
 const positionList = [
-  'topRight',
-  'topLeft',
-  'top',
-  'bottom',
-  'bottomLeft',
-  'bottomRight',
-  'topCenter',
-  'center',
-  'centerLeft',
-  'centerRight',
-  'bottomCenter'
+  "topRight",
+  "topLeft",
+  "top",
+  "bottom",
+  "bottomLeft",
+  "bottomRight",
+  "topCenter",
+  "center",
+  "centerLeft",
+  "centerRight",
+  "bottomCenter"
 ];
 
 export default class Noty extends Component {
@@ -35,9 +35,9 @@ export default class Noty extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('blur', this.resetTtl);
+    window.addEventListener("blur", this.resetTtl);
 
-    window.addEventListener('focus', this.resumeAll);
+    window.addEventListener("focus", this.resumeAll);
   }
 
   resetTtl = () => {
@@ -64,14 +64,14 @@ export default class Noty extends Component {
 
   static defaultProps = {
     maxVisible: 5,
-    type: 'alert',
-    title: '',
-    text: '',
+    type: "alert",
+    title: "",
+    text: "",
     ttl: 4000,
-    position: 'topRight',
+    position: "topRight",
     animate: {
-      open: 'bounceInRight',
-      close: 'bounceOutRight'
+      open: "bounceInRight",
+      close: "bounceOutRight"
     },
     isProgressBar: true,
     isCloseButton: true,
@@ -79,7 +79,7 @@ export default class Noty extends Component {
     isVisibility: true,
     template: false,
     props: {},
-    theme: 'relax'
+    theme: "relax"
   };
 
   static propTypes = {
@@ -128,7 +128,7 @@ export default class Noty extends Component {
     const thisNoty = {
       ...this.props,
       ...settings,
-      id: _.uniqueId('noty_'),
+      id: _.uniqueId("noty_"),
       emitter: new EventEmitter(),
       on: function(...props) {
         this.emitter.on(...props);
@@ -149,8 +149,8 @@ export default class Noty extends Component {
         notyQueue: _.concat(notyQueue, thisNoty)
       });
 
-      this.Emitter.emit('onQueue', {
-        type: 'push',
+      this.Emitter.emit("onQueue", {
+        type: "push",
         noty: thisNoty
       });
     } else {
@@ -168,8 +168,8 @@ export default class Noty extends Component {
     if (notyQueue.length > 0) {
       const noty = notyQueue.shift();
 
-      this.Emitter.emit('onQueue', {
-        type: 'shift',
+      this.Emitter.emit("onQueue", {
+        type: "shift",
         noty
       });
 
@@ -185,9 +185,16 @@ export default class Noty extends Component {
   onClose = (id, type = 0) => {
     const { notyList } = this.state;
 
-    if (type) this.emit('onClick', id);
+    switch (type) {
+      case 1:
+        this.emit("onClick", id);
+        break;
+      case 2:
+        this.emit("onClickCloseButton", id);
+        break;
+    }
 
-    this.emit('onClose', id);
+    this.emit("onClose", id);
 
     this.setState({
       notyList: _.filter(notyList, e => e.id !== id)
@@ -198,7 +205,7 @@ export default class Noty extends Component {
 
   emit = (alias, id) => {
     const { notyList } = this.state;
-    const noty = _.find(notyList, ['id', id]);
+    const noty = _.find(notyList, ["id", id]);
 
     if (noty) {
       noty.emitter.emit(alias, noty);
@@ -216,7 +223,7 @@ export default class Noty extends Component {
       })
     });
 
-    this.Emitter.emit('onCloseAll', notyList);
+    this.Emitter.emit("onCloseAll", notyList);
   };
 
   render() {
@@ -228,7 +235,7 @@ export default class Noty extends Component {
           {positionList.map(position => (
             <div key={position} id={`noty_layout__${position}`}>
               {_
-                .filter(notyList, ['position', position])
+                .filter(notyList, ["position", position])
                 .map(noty => (
                   <NotyContainer
                     ref={e => (this.notyRef[noty.id] = e)}
