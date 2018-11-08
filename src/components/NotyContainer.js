@@ -101,17 +101,17 @@ export default class NotyContainer extends Component {
 
     const { id, onClose, isButton } = this.props;
 
-    const type = _.toInteger(e.currentTarget.getAttribute("data-type"));
+    const type = _.toInteger(e ? e.currentTarget.getAttribute("data-type") : 0);
 
-    if (isButton === 1) {
-      this.setState({
-        isShow: false
-      });
+    if (!isButton && type === 1) return false;
 
-      setTimeout(() => {
-        onClose(id, type);
-      }, 500);
-    }
+    this.setState({
+      isShow: false
+    });
+
+    setTimeout(() => {
+      onClose(id, type);
+    }, 500);
   };
 
   resetTtl = () => {

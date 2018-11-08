@@ -75,7 +75,7 @@ export default class Noty extends Component {
     },
     isProgressBar: true,
     isCloseButton: true,
-    isButton: false,
+    isButton: true,
     isVisibility: true,
     template: false,
     props: {},
