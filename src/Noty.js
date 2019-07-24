@@ -133,6 +133,9 @@ export default class Noty extends Component {
       on: function(...props) {
         this.emitter.on(...props);
       },
+      off: function(...props) {
+        this.emitter.off(...props);
+      },
       close: function() {
         notyRef[this.id].onClose();
       },
@@ -234,17 +237,15 @@ export default class Noty extends Component {
         <div id="notyContainer">
           {positionList.map(position => (
             <div key={position} id={`noty_layout__${position}`}>
-              {_
-                .filter(notyList, ["position", position])
-                .map(noty => (
-                  <NotyContainer
-                    ref={e => (this.notyRef[noty.id] = e)}
-                    key={noty.id}
-                    {...noty}
-                    onClose={this.onClose}
-                    emit={this.emit}
-                  />
-                ))}
+              {_.filter(notyList, ["position", position]).map(noty => (
+                <NotyContainer
+                  ref={e => (this.notyRef[noty.id] = e)}
+                  key={noty.id}
+                  {...noty}
+                  onClose={this.onClose}
+                  emit={this.emit}
+                />
+              ))}
             </div>
           ))}
         </div>
