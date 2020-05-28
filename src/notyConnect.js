@@ -1,21 +1,25 @@
-import React, { Component } from 'react';
-
-import propTypes from './propTypes';
+import React, { Component } from "react";
+import { NotyContext } from "./NotyContext";
 
 function getDisplayName(WrappedComponent) {
-  return WrappedComponent.displayName || WrappedComponent.name || 'Component';
+  return WrappedComponent.displayName || WrappedComponent.name || "Component";
 }
 
 export default function notyConnect(WrappedComponent) {
   return class extends Component {
     static displayName = `notyConnect(${getDisplayName(WrappedComponent)})`;
 
-    static contextTypes = {
-      noty: propTypes
-    };
-
     render() {
-      return <WrappedComponent {...this.props} noty={this.context.noty} />;
+      return (
+        <NotyContext.Consumer>
+          {({ notyContext, changeContext }) => (
+            <WrappedComponent
+              {...this.props}
+              noty={notyContext && notyContext.noty}
+            />
+          )}
+        </NotyContext.Consumer>
+      );
     }
   };
 }
