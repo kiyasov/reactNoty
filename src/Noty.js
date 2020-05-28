@@ -1,6 +1,8 @@
-import React, { Component, Fragment, useState, useEffect } from "react";
+import React, { useContext, Fragment, useState, useEffect } from "react";
 import EventEmitter from "events";
 import _ from "lodash";
+
+import { useMount, createGlobalState } from "react-use";
 
 import { NotyContext } from "./NotyContext";
 import NotyContainer from "./components/NotyContainer";
@@ -17,12 +19,15 @@ const positionList = [
   "center",
   "centerLeft",
   "centerRight",
-  "bottomCenter",
+  "bottomCenter"
 ];
 
-let Noty = (props) => {
+const useNotyList = createGlobalState([]);
+
+let Noty = props => {
+  let { changeContext } = useContext(NotyContext);
   let [isFirst, setIsFirst] = useState(true);
-  let [notyList, setNotyList] = useState([]);
+  let [notyList, setNotyList] = useNotyList();
   let [notyQueue, setNotyQueue] = useState([]);
 
   let emitter = new EventEmitter();
@@ -44,13 +49,11 @@ let Noty = (props) => {
     const { maxVisible } = props;
 
     if (isFirst) {
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await new Promise(resolve => setTimeout(resolve, 100));
 
       setIsFirst(false);
     } else {
-      await new Promise((resolve) =>
-        setTimeout(resolve, 100 * notyList.length)
-      );
+      await new Promise(resolve => setTimeout(resolve, 100 * notyList.length));
     }
 
     const newNoty = {
@@ -58,21 +61,21 @@ let Noty = (props) => {
       ...settings,
       id: _.uniqueId("noty_"),
       emitter: new EventEmitter(),
-      on: function (...props) {
+      on: function(...props) {
         emitter.on(...props);
       },
-      off: function (...props) {
+      off: function(...props) {
         emitter.off(...props);
       },
-      close: function () {
+      close: function() {
         notyRef[this.id].onClose();
       },
-      stop: function () {
+      stop: function() {
         notyRef[this.id].resetTtl();
       },
-      resume: function () {
+      resume: function() {
         notyRef[this.id].setInterval();
-      },
+      }
     };
 
     if (maxVisible === notyList.length) {
@@ -80,7 +83,7 @@ let Noty = (props) => {
 
       this.emitter.emit("onQueue", {
         type: "push",
-        noty: newNoty,
+        noty: newNoty
       });
     } else {
       setNotyList(_.concat(notyList, newNoty));
@@ -97,7 +100,7 @@ let Noty = (props) => {
 
     emitter.emit("onQueue", {
       type: "shift",
-      noty,
+      noty
     });
 
     setNotyQueue(notyQueue);
@@ -127,13 +130,13 @@ let Noty = (props) => {
 
     emit("onClose", id);
 
-    setNotyList(_.filter(notyList, (e) => e.id !== id));
+    setNotyList(_.filter(notyList, e => e.id !== id));
     queueShift();
   };
 
   let closeAll = () => {
     setNotyList(
-      _.map(notyList, (e) => {
+      _.map(notyList, e => {
         e.ttl = 0;
         return e;
       })
@@ -149,39 +152,35 @@ let Noty = (props) => {
     setInterface({
       show: (...props) => show(...props),
       on: (...props) => on(...props),
-      closeAll: (...props) => closeAll(...props),
+      closeAll: (...props) => closeAll(...props)
     });
   }, []);
 
+  useMount(() => {
+    console.log(4);
+    changeContext({
+      show: (...props) => show(...props),
+      on: (...props) => on(...props),
+      closeAll: (...props) => closeAll(...props)
+    });
+  });
+
   return (
-    <NotyContext.Consumer>
-      {({ notyContext, changeContext }) => {
-        changeContext({
-          noty: {
-            show: (...props) => show(...props),
-            on: (...props) => on(...props),
-            closeAll: (...props) => closeAll(...props),
-          },
-        });
-        return (
-          <div id="notyContainer">
-            {positionList.map((position) => (
-              <div key={position} id={`noty_layout__${position}`}>
-                {_.filter(notyList, ["position", position]).map((noty) => (
-                  <NotyContainer
-                    ref={(e) => (notyRef[noty.id] = e)}
-                    key={noty.id}
-                    {...noty}
-                    onClose={onClose}
-                    emit={emit}
-                  />
-                ))}
-              </div>
-            ))}
-          </div>
-        );
-      }}
-    </NotyContext.Consumer>
+    <div id="notyContainer">
+      {positionList.map(position => (
+        <div key={position} id={`noty_layout__${position}`}>
+          {_.filter(notyList, ["position", position]).map(noty => (
+            <NotyContainer
+              ref={e => (notyRef[noty.id] = e)}
+              key={noty.id}
+              {...noty}
+              onClose={onClose}
+              emit={emit}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
   );
 };
 
@@ -194,7 +193,7 @@ Noty.defaultProps = {
   position: "topRight",
   animate: {
     open: "bounceInRight",
-    close: "bounceOutRight",
+    close: "bounceOutRight"
   },
   isProgressBar: true,
   isCloseButton: true,
@@ -202,7 +201,7 @@ Noty.defaultProps = {
   isVisibility: true,
   template: false,
   props: {},
-  theme: "relax",
+  theme: "relax"
 };
 
 export default Noty;

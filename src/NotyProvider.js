@@ -5,6 +5,8 @@ import { NotyContext, notyInterface } from "./NotyContext";
 export default function NotyProvider(props) {
   let [notyContext, setNotyContext] = useState(notyInterface);
 
+  console.log(notyContext);
+
   function changeContext(newContext) {
     if (notyContext === null) {
       setNotyContext(newContext);
@@ -15,13 +17,11 @@ export default function NotyProvider(props) {
     <NotyContext.Provider
       value={{
         notyContext,
-        changeContext,
+        changeContext
       }}
     >
       {props.children}
-      <Noty
-        {...props.rest}
-      />
+      <Noty {...props.rest} />
     </NotyContext.Provider>
   );
 }
