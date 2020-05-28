@@ -12,12 +12,15 @@ export default function notyConnect(WrappedComponent) {
     render() {
       return (
         <NotyContext.Consumer>
-          {({ notyContext, changeContext }) => (
-            <WrappedComponent
-              {...this.props}
-              noty={notyContext && notyContext.noty}
-            />
-          )}
+          {({ notyContext, changeContext }) => {
+            console.log(notyContext);
+            return (
+              <WrappedComponent
+                {...this.props}
+                noty={notyContext && notyContext.noty}
+              />
+            );
+          }}
         </NotyContext.Consumer>
       );
     }
