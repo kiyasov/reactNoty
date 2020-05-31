@@ -1,12 +1,10 @@
-import React, { Component, Fragment, useState } from "react";
+import React, { useState } from "react";
 import Noty from "./Noty";
 import _ from "lodash";
 import { NotyContext, notyInterface } from "./NotyContext";
 
 export default function NotyProvider(props) {
   let [notyContext, setNotyContext] = useState(notyInterface);
-
-  console.log(notyContext);
 
   function changeContext(newContext) {
     if (_.get(notyContext, "show") !== newContext.show) {
