@@ -28,7 +28,6 @@ let Noty = props => {
   let { changeContext } = useContext(NotyContext);
   let [notyList, setNotyList] = useNotyList();
   let [notyQueue, setNotyQueue] = useState([]);
-  console.log("render", notyList);
 
   let emitter = new EventEmitter();
   let notyRef = {};

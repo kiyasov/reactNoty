@@ -9,7 +9,6 @@ export default function NotyProvider(props) {
   console.log(notyContext);
 
   function changeContext(newContext) {
-    console.log(notyContext, newContext);
     if (_.get(notyContext, "show") !== newContext.show) {
       setNotyContext(newContext);
     }
