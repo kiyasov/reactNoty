@@ -26,9 +26,9 @@ const useNotyList = createGlobalState([]);
 
 let Noty = props => {
   let { changeContext } = useContext(NotyContext);
-  let [isFirst, setIsFirst] = useState(true);
   let [notyList, setNotyList] = useNotyList();
   let [notyQueue, setNotyQueue] = useState([]);
+  console.log("render", notyList);
 
   let emitter = new EventEmitter();
   let notyRef = {};
@@ -47,14 +47,7 @@ let Noty = props => {
 
   let show = async (settings = {}) => {
     const { maxVisible } = props;
-
-    if (isFirst) {
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      setIsFirst(false);
-    } else {
-      await new Promise(resolve => setTimeout(resolve, 100 * notyList.length));
-    }
+    await new Promise(resolve => setTimeout(resolve, 100 * notyList.length));
 
     const newNoty = {
       ...props,
@@ -156,8 +149,21 @@ let Noty = props => {
     });
   }, []);
 
+  useEffect(() => {
+    let { setInterface } = useNoty();
+    setInterface({
+      show: (...props) => show(...props),
+      on: (...props) => on(...props),
+      closeAll: (...props) => closeAll(...props)
+    });
+    changeContext({
+      show: (...props) => show(...props),
+      on: (...props) => on(...props),
+      closeAll: (...props) => closeAll(...props)
+    });
+  }, [notyList.length]);
+
   useMount(() => {
-    console.log(4);
     changeContext({
       show: (...props) => show(...props),
       on: (...props) => on(...props),
