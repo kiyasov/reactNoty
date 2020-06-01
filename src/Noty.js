@@ -73,7 +73,7 @@ let Noty = props => {
     if (maxVisible === notyList.length) {
       setNotyQueue(_.concat(notyQueue, newNoty));
 
-      this.emitter.emit("onQueue", {
+      emitter.emit("onQueue", {
         type: "push",
         noty: newNoty
       });
