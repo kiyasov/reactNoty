@@ -1,22 +1,6 @@
-import React, { Component, Fragment, useState } from "react";
+import React, { Component, Fragment } from "react";
 import _ from "lodash";
 import PropTypes from "prop-types";
-
-import { CSSTransition } from "react-css-transition";
-
-CSSTransition.childContextTypes = {
-  // this can be empty
-};
-
-// export default notyContainer({ ttl }) {
-//   let [isShow, setIsShow] = useState(true);
-//   let [notyLiveTime, setNotyLiveTime] = useState(ttl / 1000);
-//   let [styleProgressBar, setStyleProgressBar] = useState({
-//     width: `100%`
-//   });
-//
-//
-// }
 
 export default class NotyContainer extends Component {
   constructor(props) {
@@ -210,10 +194,9 @@ export default class NotyContainer extends Component {
           )}
         </div>
         {isProgressBar && ttl ? (
-          <CSSTransition
-            className="noty_progressbar"
-            style={styleProgressBar}
-          />
+          <div className="noty_progressbar" style={styleProgressBar}>
+            <span style={{opacity: 0.9}}></span>
+          </div>
         ) : null}
         {isCloseButton ? (
           <div
