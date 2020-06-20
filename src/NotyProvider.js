@@ -1,36 +1,26 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import Noty from './Noty';
+import React, { useState } from "react";
+import Noty from "./Noty";
+import _ from "lodash";
+import { NotyContext, notyInterface } from "./NotyContext";
 
-import propTypes from './propTypes';
+export default function NotyProvider(props) {
+  let [notyContext, setNotyContext] = useState(notyInterface);
 
-export default class NotyProvider extends Component {
-  static childContextTypes = {
-    noty: propTypes
-  };
-
-  static propTypes = {
-    children: PropTypes.node.isRequired
-  };
-
-  getChildContext() {
-    return {
-      noty: {
-        show: (...props) => this.noty.show(...props),
-        on: (...props) => this.noty.on(...props),
-        closeAll: (...props) => this.noty.closeAll(...props)
-      }
-    };
+  function changeContext(newContext) {
+    if (_.get(notyContext, "show") !== newContext.show) {
+      setNotyContext(newContext);
+    }
   }
 
-  render() {
-    const { children, ...rest } = this.props;
-
-    return (
-      <Fragment>
-        {children}
-        <Noty ref={c => (this.noty = c)} {...rest} />
-      </Fragment>
-    );
-  }
+  return (
+    <NotyContext.Provider
+      value={{
+        notyContext,
+        changeContext
+      }}
+    >
+      {props.children}
+      <Noty {...props.rest} />
+    </NotyContext.Provider>
+  );
 }

@@ -2,12 +2,6 @@ import React, { Component, Fragment } from "react";
 import _ from "lodash";
 import PropTypes from "prop-types";
 
-import { CSSTransition } from "react-css-transition";
-
-CSSTransition.childContextTypes = {
-  // this can be empty
-};
-
 export default class NotyContainer extends Component {
   constructor(props) {
     super(props);
@@ -200,10 +194,9 @@ export default class NotyContainer extends Component {
           )}
         </div>
         {isProgressBar && ttl ? (
-          <CSSTransition
-            className="noty_progressbar"
-            style={styleProgressBar}
-          />
+          <div className="noty_progressbar" style={styleProgressBar}>
+            <span style={{opacity: 0.9}}></span>
+          </div>
         ) : null}
         {isCloseButton ? (
           <div
